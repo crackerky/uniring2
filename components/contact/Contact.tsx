@@ -32,13 +32,14 @@ export function Contact() {
 
   return (
     <section className="py-24 relative overflow-hidden">
-      {/* Background effects */}
-      <div className="gradient-bg opacity-10"></div>
+      {/* 背景効果 - 滑らかな統合 */}
+      <div className="absolute inset-0 bg-gradient-to-br from-brand-pink/5 via-brand-blue/5 to-brand-yellow/5"></div>
       <div className="texture-overlay"></div>
       
-      {/* Decorative elements */}
-      <div className="absolute top-20 right-10 w-64 h-64 bg-brand-pink/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-20 left-10 w-72 h-72 bg-brand-blue/10 rounded-full blur-3xl"></div>
+      {/* 装飾要素 - 広がりのある影響範囲 */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-pink/10 rounded-full blur-[150px]"></div>
+      <div className="absolute bottom-0 left-0 w-[700px] h-[700px] bg-brand-blue/10 rounded-full blur-[150px]"></div>
+      <div className="absolute bottom-1/3 right-1/3 w-[400px] h-[400px] bg-brand-yellow/5 rounded-full blur-[120px]"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
@@ -67,10 +68,10 @@ export function Contact() {
               href="https://lin.ee/FxjKTyN" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="text-primary hover:text-primary/80 hover:underline relative inline-block px-1"
+              className="text-primary hover:text-primary/80 hover:underline relative inline-block px-1 group"
             >
               <span className="relative z-10">こちら</span>
-              <span className="absolute inset-0 bg-brand-pink/10 rounded blur-sm"></span>
+              <span className="absolute inset-0 bg-brand-pink/10 rounded blur-sm group-hover:bg-brand-pink/20 transition-all duration-300"></span>
             </Link>
             からお問い合わせください
           </motion.p>
@@ -80,9 +81,10 @@ export function Contact() {
               variants={itemVariants} 
               className="space-y-8"
             >
-              <div className="flex items-center space-x-4 bg-white/80 backdrop-blur-sm p-4 rounded-lg border border-brand-pink/20 shadow-soft">
-                <div className="bg-gradient-to-br from-brand-pink to-brand-pink/70 p-3 rounded-full shadow-glow">
-                  <Mail className="w-6 h-6 text-white" />
+              <div className="flex items-center space-x-4 bg-white/80 backdrop-blur-sm p-6 rounded-lg border border-brand-pink/20 shadow-soft hover:shadow-glow transition-all duration-300 transform hover:-translate-y-1">
+                <div className="bg-gradient-to-br from-brand-pink to-brand-pink/70 p-3 rounded-full shadow-glow relative overflow-hidden">
+                  <div className="absolute inset-0 rounded-full bg-white/20 animate-pulse-soft"></div>
+                  <Mail className="w-6 h-6 text-white relative z-10" />
                 </div>
                 <div>
                   <h3 className="font-semibold">メールアドレス</h3>
@@ -95,9 +97,10 @@ export function Contact() {
               variants={itemVariants} 
               className="space-y-8"
             >
-              <div className="flex items-center space-x-4 bg-white/80 backdrop-blur-sm p-4 rounded-lg border border-brand-blue/20 shadow-soft">
-                <div className="bg-gradient-to-br from-brand-blue to-brand-blue/70 p-3 rounded-full shadow-blue-glow">
-                  <MapPin className="w-6 h-6 text-white" />
+              <div className="flex items-center space-x-4 bg-white/80 backdrop-blur-sm p-6 rounded-lg border border-brand-blue/20 shadow-soft hover:shadow-blue-glow transition-all duration-300 transform hover:-translate-y-1">
+                <div className="bg-gradient-to-br from-brand-blue to-brand-blue/70 p-3 rounded-full shadow-blue-glow relative overflow-hidden">
+                  <div className="absolute inset-0 rounded-full bg-white/20 animate-pulse-soft"></div>
+                  <MapPin className="w-6 h-6 text-white relative z-10" />
                 </div>
                 <div>
                   <h3 className="font-semibold">所在地</h3>
@@ -115,10 +118,10 @@ export function Contact() {
               variants={itemVariants} 
               className="space-y-8"
             >
-              <Alert className="bg-white/80 backdrop-blur-sm border-brand-yellow/30 shadow-yellow-glow">
-                <AlertCircle className="h-4 w-4 text-brand-yellow" />
-                <AlertDescription className="text-muted-foreground">
-                  通常2営業日以内にご返信いたします。
+              <Alert className="bg-white/80 backdrop-blur-sm border-brand-yellow/30 shadow-yellow-glow p-6 hover:shadow-[0_0_25px_rgba(255,215,0,0.2)] transition-all duration-300 transform hover:-translate-y-1">
+                <AlertCircle className="h-5 w-5 text-brand-yellow" />
+                <AlertDescription className="text-muted-foreground text-base mt-1">
+                  通常2営業日以内にご返信いたします。お急ぎの場合は、お電話でのお問い合わせもご検討ください。
                 </AlertDescription>
               </Alert>
             </motion.div>

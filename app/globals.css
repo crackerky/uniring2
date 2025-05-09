@@ -10,8 +10,33 @@
   --teal-accent: #4FD1C5;
 }
 
+body {
+  position: relative;
+  overflow-x: hidden;
+  background-image: linear-gradient(135deg, 
+    rgba(255, 191, 199, 0.1) 0%, 
+    rgba(181, 220, 255, 0.1) 50%, 
+    rgba(255, 247, 214, 0.1) 100%);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23FFFFFF' fill-opacity='0.05' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='1'/%3E%3Ccircle cx='13' cy='13' r='1'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: -10;
+  opacity: 0.5;
+}
+
 .gradient-bg {
-  background: linear-gradient(135deg, #FFBFC7 0%, #B5DCFF 50%, #FFF7D6 100%);
+  background: linear-gradient(135deg, 
+    rgba(255, 191, 199, 0.5) 0%, 
+    rgba(181, 220, 255, 0.5) 50%, 
+    rgba(255, 247, 214, 0.5) 100%);
   opacity: 0.5;
   z-index: -1;
   position: absolute;
@@ -21,6 +46,7 @@
   bottom: 0;
   width: 100%;
   height: 100%;
+  transition: opacity 0.5s ease;
 }
 
 .gradient-soft {
@@ -28,6 +54,14 @@
     rgba(255, 191, 199, 0.3) 0%, 
     rgba(181, 220, 255, 0.3) 50%, 
     rgba(255, 247, 214, 0.3) 100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
 
 .gradient-vibrant {
@@ -35,6 +69,14 @@
     rgba(255, 191, 199, 0.8) 0%, 
     rgba(181, 220, 255, 0.8) 50%, 
     rgba(255, 247, 214, 0.8) 100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
 
 .texture-overlay {
@@ -54,6 +96,35 @@
   filter: blur(40px);
   z-index: -2;
   opacity: 0.2;
+  transition: opacity 0.8s ease;
+}
+
+/* アニメーション設定 */
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(-15px) translateX(10px);
+  }
+  50% {
+    transform: translateY(0) translateX(20px);
+  }
+  75% {
+    transform: translateY(15px) translateX(10px);
+  }
+}
+
+.animate-float {
+  animation: float 15s ease-in-out infinite;
+}
+
+.animation-delay-1000 {
+  animation-delay: 5s;
+}
+
+.animation-delay-2000 {
+  animation-delay: 10s;
 }
 
 .bg-pattern {
@@ -61,12 +132,12 @@
                     radial-gradient(rgba(181, 220, 255, 0.1) 1px, transparent 1px);
   background-size: 20px 20px;
   background-position: 0 0, 10px 10px;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  z-index: -10;
   opacity: 0.6;
 }
 
@@ -90,4 +161,157 @@
 
 .yellow-highlight {
   background: linear-gradient(transparent 70%, rgba(255, 215, 0, 0.3) 30%);
+}
+
+/* より自然な背景トランジション */
+section {
+  position: relative;
+}
+
+/* 白い背景の場合のグラデーションエッジ */
+section.bg-white::before,
+section.bg-white::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 150px;
+  width: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+section.bg-white::before {
+  top: -150px;
+  background: linear-gradient(to bottom, 
+    rgba(255, 255, 255, 0) 0%, 
+    rgba(255, 255, 255, 1) 100%);
+}
+
+section.bg-white::after {
+  bottom: -150px;
+  background: linear-gradient(to top, 
+    rgba(255, 255, 255, 0) 0%, 
+    rgba(255, 255, 255, 1) 100%);
+}
+
+/* セカンダリ背景の場合のグラデーションエッジ */
+section.bg-secondary\/30::before,
+section.bg-secondary\/30::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 150px;
+  width: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+section.bg-secondary\/30::before {
+  top: -150px;
+  background: linear-gradient(to bottom, 
+    rgba(255, 255, 255, 0) 0%, 
+    rgba(240, 244, 248, 0.3) 100%);
+}
+
+section.bg-secondary\/30::after {
+  bottom: -150px;
+  background: linear-gradient(to top, 
+    rgba(255, 255, 255, 0) 0%, 
+    rgba(240, 244, 248, 0.3) 100%);
+}
+
+/* 浮遊要素のアニメーション強化 */
+.floating-orb {
+  position: absolute;
+  border-radius: 50%;
+  mix-blend-mode: screen;
+  filter: blur(60px);
+  z-index: -1;
+  opacity: 0.4;
+  transition: all 2s ease-in-out;
+}
+
+/* カードのグラデーション背景をスムーズに */
+.gradient-card {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.gradient-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg,
+    rgba(255, 191, 199, 0.2) 0%,
+    rgba(181, 220, 255, 0.2) 50%,
+    rgba(255, 247, 214, 0.2) 100%);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gradient-card:hover::before {
+  opacity: 1;
+}
+
+/* セクション間のシームレスな移行 */
+.section-transition {
+  position: relative;
+  height: 100px;
+  margin-top: -50px;
+  margin-bottom: -50px;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.wave-transition {
+  position: absolute;
+  width: 100%;
+  height: 100px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' opacity='.25' fill='%23ffffff'/%3E%3Cpath d='M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z' opacity='.5' fill='%23ffffff'/%3E%3Cpath d='M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z' fill='%23ffffff'/%3E%3C/svg%3E");
+  background-size: cover;
+  background-position: center;
+}
+
+/* イメージオーバーレイのやわらかさ */
+.image-overlay {
+  position: relative;
+}
+
+.image-overlay::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg,
+    rgba(255, 191, 199, 0.2) 0%,
+    rgba(181, 220, 255, 0.2) 50%,
+    rgba(255, 247, 214, 0.2) 100%);
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+/* 浮遊要素の微妙な動き */
+@keyframes subtle-pulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 0.2;
+  }
+  50% { 
+    transform: scale(1.05);
+    opacity: 0.3;
+  }
+}
+
+.animate-subtle-pulse {
+  animation: subtle-pulse 8s ease-in-out infinite;
 }

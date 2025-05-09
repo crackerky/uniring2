@@ -48,12 +48,14 @@ export function Awareness() {
 
   return (
     <section className="py-16 sm:py-24 relative overflow-hidden">
-      <div className="gradient-bg opacity-10"></div>
+      {/* 背景効果 - より自然な変化 */}
+      <div className="absolute inset-0 bg-gradient-to-br from-brand-pink/5 via-brand-blue/5 to-brand-yellow/5"></div>
       <div className="texture-overlay"></div>
       
-      {/* Decorative elements */}
-      <div className="absolute -top-12 -right-12 w-64 h-64 bg-brand-pink opacity-5 rounded-full blur-3xl"></div>
-      <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-brand-blue opacity-5 rounded-full blur-3xl"></div>
+      {/* 装飾要素 - より自然なブレンド */}
+      <div className="absolute -top-20 -right-20 w-96 h-96 bg-brand-pink opacity-5 rounded-full blur-[100px]"></div>
+      <div className="absolute -bottom-32 -left-32 w-[500px] h-[500px] bg-brand-blue opacity-5 rounded-full blur-[120px]"></div>
+      <div className="absolute top-1/3 right-1/3 w-64 h-64 bg-brand-yellow opacity-3 rounded-full blur-[80px]"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
@@ -83,7 +85,7 @@ export function Awareness() {
                 key={index}
                 variants={itemVariants}
                 whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                className={`p-4 sm:p-6 rounded-lg border h-full flex flex-col ${example.color} ${example.shadow} backdrop-blur-sm transition-all duration-300`}
+                className={`p-4 sm:p-6 rounded-lg border h-full flex flex-col gradient-card ${example.color} ${example.shadow} backdrop-blur-sm transition-all duration-300`}
               >
                 <h3 className="font-bold text-base sm:text-lg mb-2 sm:mb-3 text-primary">
                   {example.title}
