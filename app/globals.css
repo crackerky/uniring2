@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: #FFBFC7;
+  --secondary-color: #B5DCFF;
+  --accent-color: #FFF7D6;
+  --purple-accent: #9D8DF1;
+  --teal-accent: #4FD1C5;
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, #FFBFC7 0%, #B5DCFF 50%, #FFF7D6 100%);
+  opacity: 0.5;
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.gradient-soft {
+  background: linear-gradient(135deg, 
+    rgba(255, 191, 199, 0.3) 0%, 
+    rgba(181, 220, 255, 0.3) 50%, 
+    rgba(255, 247, 214, 0.3) 100%);
+}
+
+.gradient-vibrant {
+  background: linear-gradient(135deg, 
+    rgba(255, 191, 199, 0.8) 0%, 
+    rgba(181, 220, 255, 0.8) 50%, 
+    rgba(255, 247, 214, 0.8) 100%);
+}
+
+.texture-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23FFFFFF' fill-opacity='0.05' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='1'/%3E%3Ccircle cx='13' cy='13' r='1'/%3E%3C/g%3E%3C/svg%3E");
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.5;
+}
+
+.animated-bg-element {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  z-index: -2;
+  opacity: 0.2;
+}
+
+.bg-pattern {
+  background-image: radial-gradient(rgba(255, 191, 199, 0.1) 1px, transparent 1px),
+                    radial-gradient(rgba(181, 220, 255, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.6;
+}
+
+.card-glow {
+  box-shadow: 0 4px 20px rgba(255, 191, 199, 0.15);
+  transition: all 0.3s ease;
+}
+
+.card-glow:hover {
+  box-shadow: 0 8px 30px rgba(255, 191, 199, 0.25);
+  transform: translateY(-5px);
+}
+
+.pink-highlight {
+  background: linear-gradient(transparent 70%, rgba(255, 191, 199, 0.4) 30%);
+}
+
+.blue-highlight {
+  background: linear-gradient(transparent 70%, rgba(181, 220, 255, 0.4) 30%);
+}
+
+.yellow-highlight {
+  background: linear-gradient(transparent 70%, rgba(255, 215, 0, 0.3) 30%);
+}

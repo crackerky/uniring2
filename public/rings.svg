@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="600" height="600" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="300" cy="300" r="280" stroke="url(#gradient1)" stroke-width="2" stroke-opacity="0.15"/>
+  <circle cx="300" cy="300" r="200" stroke="url(#gradient2)" stroke-width="2" stroke-opacity="0.15"/>
+  <circle cx="300" cy="300" r="120" stroke="url(#gradient3)" stroke-width="2" stroke-opacity="0.15"/>
+  <defs>
+    <linearGradient id="gradient1" x1="0" y1="0" x2="600" y2="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFBFC7"/>
+      <stop offset="50%" stop-color="#B5DCFF"/>
+      <stop offset="100%" stop-color="#FFF7D6"/>
+    </linearGradient>
+    <linearGradient id="gradient2" x1="0" y1="0" x2="600" y2="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#B5DCFF"/>
+      <stop offset="50%" stop-color="#FFF7D6"/>
+      <stop offset="100%" stop-color="#FFBFC7"/>
+    </linearGradient>
+    <linearGradient id="gradient3" x1="0" y1="0" x2="600" y2="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFF7D6"/>
+      <stop offset="50%" stop-color="#FFBFC7"/>
+      <stop offset="100%" stop-color="#B5DCFF"/>
+    </linearGradient>
+  </defs>
+</svg>
