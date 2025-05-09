@@ -50,8 +50,19 @@ export function News() {
   };
 
   return (
-    <section className="py-16 sm:py-24 bg-white">
-      <div className="container mx-auto px-4">
+    <section className="py-16 sm:py-24 relative">
+      {/* 白い背景の上にオーバーレイグラデーション */}
+      <div className="absolute inset-0 bg-white"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-brand-pink/2 via-brand-blue/2 to-brand-yellow/2"></div>
+      
+      {/* 上部のグラデーショントランジション */}
+      <div className="absolute top-0 left-0 right-0 h-[200px] bg-gradient-to-b from-transparent to-white/80 pointer-events-none"></div>
+      
+      {/* 装飾要素 - より大きなブラー半径 */}
+      <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-brand-pink/5 rounded-full blur-[120px]"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-brand-blue/5 rounded-full blur-[120px]"></div>
+      
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -69,9 +80,9 @@ export function News() {
               <Link 
                 key={index} 
                 href={item.link}
-                className="block bg-card hover:bg-muted/50 rounded-lg shadow-sm border transition-all duration-200 hover:shadow-md hover:-translate-y-1"
+                className="block bg-white rounded-lg shadow-sm border border-gray-100/50 transition-all duration-200 hover:shadow-md hover:-translate-y-1 gradient-card overflow-hidden"
               >
-                <div className="relative h-40 sm:h-48">
+                <div className="relative h-40 sm:h-48 image-overlay">
                   <Image
                     src={item.image}
                     alt={item.title}
@@ -94,10 +105,11 @@ export function News() {
           <motion.div variants={itemVariants} className="mt-8 text-center">
             <Link 
               href="/news"
-              className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2"
+              className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2 relative group"
             >
-              すべてのお知らせを見る
-              <span className="text-lg">→</span>
+              <span className="relative z-10">すべてのお知らせを見る</span>
+              <span className="text-lg group-hover:translate-x-1 transition-transform">→</span>
+              <span className="absolute inset-0 bg-brand-pink/5 rounded-full blur-sm opacity-0 group-hover:opacity-100 transition-opacity"></span>
             </Link>
           </motion.div>
         </motion.div>

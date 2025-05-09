@@ -74,16 +74,20 @@ export default function RootLayout({
         <meta name="theme-color" content="#FFBFC7" />
       </head>
       <body className="min-h-screen font-serif antialiased">
+        {/* 基本的な背景パターン */}
         <div className="fixed inset-0 z-[-3] bg-pattern"></div>
         
-        {/* 浮遊する背景要素 - より大きく、より自然な動き */}
-        <div className="animated-bg-element w-[400px] h-[400px] bg-brand-pink top-1/4 left-1/6 animate-float opacity-10"></div>
-        <div className="animated-bg-element w-[500px] h-[500px] bg-brand-blue top-2/4 right-1/4 animate-float animation-delay-1000 opacity-10"></div>
-        <div className="animated-bg-element w-[350px] h-[350px] bg-brand-yellow bottom-1/4 right-1/6 animate-float animation-delay-2000 opacity-10"></div>
+        {/* 全体的な背景ブレンド - より自然に */}
+        <div className="blend-bg"></div>
         
-        {/* 新しい浮遊要素 - より微妙な動き */}
-        <div className="floating-orb w-[200px] h-[200px] bg-purple-accent top-[30%] right-[15%] animate-subtle-pulse"></div>
-        <div className="floating-orb w-[250px] h-[250px] bg-teal-accent bottom-[20%] left-[10%] animate-subtle-pulse animation-delay-2000"></div>
+        {/* 浮遊する背景要素 - さらに大きく、より自然な動き */}
+        <div className="animated-bg-element w-[500px] h-[500px] bg-brand-pink top-1/4 left-1/6 animate-float opacity-10"></div>
+        <div className="animated-bg-element w-[600px] h-[600px] bg-brand-blue top-2/4 right-1/4 animate-float animation-delay-1000 opacity-10"></div>
+        <div className="animated-bg-element w-[450px] h-[450px] bg-brand-yellow bottom-1/4 right-1/6 animate-float animation-delay-2000 opacity-10"></div>
+        
+        {/* 新しい浮遊要素 - より微妙な動き、広範囲の影響 */}
+        <div className="floating-orb w-[300px] h-[300px] bg-purple-accent top-[30%] right-[15%] animate-subtle-pulse"></div>
+        <div className="floating-orb w-[350px] h-[350px] bg-teal-accent bottom-[20%] left-[10%] animate-subtle-pulse animation-delay-2000"></div>
         
         <Header />
         <main className="relative z-10">

@@ -27,8 +27,16 @@ export function Organization() {
   };
 
   return (
-    <section className="py-24 bg-secondary/30">
-      <div className="container mx-auto px-4">
+    <section className="py-24 relative overflow-hidden">
+      {/* 背景のグラデーション */}
+      <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/5 via-transparent to-brand-pink/5"></div>
+      
+      {/* 装飾要素 - より広範囲のブラー効果 */}
+      <div className="absolute top-0 left-0 w-full h-[300px] bg-gradient-to-b from-white/30 to-transparent opacity-80 blur-[100px]"></div>
+      <div className="absolute bottom-0 left-0 w-full h-[300px] bg-gradient-to-t from-white/30 to-transparent opacity-80 blur-[100px]"></div>
+      <div className="absolute top-1/3 left-1/3 w-[600px] h-[600px] rounded-full bg-white/10 backdrop-blur-[2px]"></div>
+      
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -43,7 +51,7 @@ export function Organization() {
 
           <motion.div 
             variants={itemVariants}
-            className="bg-card p-8 rounded-lg shadow-sm border"
+            className="bg-white/90 backdrop-blur-sm p-8 rounded-lg shadow-sm border border-gray-100/50 gradient-card"
           >
             <dl className="space-y-6">
               <div className="grid md:grid-cols-3 gap-4">

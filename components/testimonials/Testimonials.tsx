@@ -52,12 +52,14 @@ export function Testimonials() {
 
   return (
     <section className="py-24 relative overflow-hidden">
-      <div className="gradient-soft"></div>
+      {/* セクションの背景 - よりスムーズな統合 */}
+      <div className="absolute inset-0 bg-gradient-to-br from-brand-pink/5 via-brand-blue/5 to-brand-yellow/5"></div>
       <div className="texture-overlay"></div>
       
-      {/* Decorative elements */}
-      <div className="absolute top-10 left-10 w-40 h-40 rounded-full bg-brand-pink/10 blur-3xl"></div>
-      <div className="absolute bottom-10 right-10 w-40 h-40 rounded-full bg-brand-blue/10 blur-3xl"></div>
+      {/* 装飾要素 - より広範囲のブラー効果 */}
+      <div className="absolute top-0 left-0 right-0 w-full h-[500px] bg-gradient-to-b from-brand-pink/10 to-transparent opacity-30 blur-[100px]"></div>
+      <div className="absolute bottom-0 left-0 right-0 w-full h-[500px] bg-gradient-to-t from-brand-blue/10 to-transparent opacity-30 blur-[100px]"></div>
+      <div className="absolute inset-0 bg-white/5 backdrop-blur-[1px]"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
@@ -95,7 +97,7 @@ export function Testimonials() {
                 key={index}
                 variants={itemVariants}
                 whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                className={`p-6 rounded-lg backdrop-blur-sm border border-gray-100 ${testimonial.gradient} ${testimonial.shadow} transition-all duration-300`}
+                className={`p-6 rounded-lg backdrop-blur-sm border border-gray-100/50 gradient-card ${testimonial.gradient} ${testimonial.shadow} transition-all duration-300`}
               >
                 <div className="flex gap-1 mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (

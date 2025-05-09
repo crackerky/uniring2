@@ -59,12 +59,15 @@ export function Mission() {
 
   return (
     <section className="py-16 sm:py-24 relative overflow-hidden">
-      <div className="gradient-bg opacity-5"></div>
+      {/* 背景要素 - より統合された */}
+      <div className="absolute inset-0 bg-gradient-to-br from-brand-pink/5 via-brand-blue/5 to-brand-yellow/5"></div>
       <div className="texture-overlay"></div>
       
-      {/* Decorative elements */}
-      <div className="absolute top-1/4 right-0 w-64 h-64 rounded-full bg-brand-purple opacity-5 blur-3xl"></div>
-      <div className="absolute bottom-1/3 left-0 w-80 h-80 rounded-full bg-brand-teal opacity-5 blur-3xl"></div>
+      {/* 装飾要素 - より大きなブラー半径 */}
+      <div className="absolute top-0 left-0 right-0 h-[400px] bg-gradient-to-b from-white/20 to-transparent opacity-40 blur-[50px]"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-[400px] bg-gradient-to-t from-white/20 to-transparent opacity-40 blur-[50px]"></div>
+      <div className="absolute top-1/4 right-0 w-[800px] h-[800px] rounded-full bg-brand-purple/5 blur-[200px]"></div>
+      <div className="absolute bottom-1/3 left-0 w-[800px] h-[800px] rounded-full bg-brand-teal/5 blur-[200px]"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
@@ -103,6 +106,7 @@ export function Mission() {
                   className={`${value.color} w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center mb-4 sm:mb-6 ${value.shadowColor} relative`}
                 >
                   <div className="absolute inset-0 rounded-full bg-white/30 animate-pulse-soft"></div>
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/40 to-transparent opacity-70"></div>
                   <value.icon 
                     size={index === 0 ? 28 : (index === 1 ? 32 : 36)} 
                     className="sm:w-10 sm:h-10 md:w-12 md:h-12 relative z-10"
@@ -110,7 +114,7 @@ export function Mission() {
                     strokeWidth={2.5}
                   />
                 </motion.div>
-                <div className={`rounded-xl p-6 ${value.bgGradient} border border-gray-100 ${value.shadowColor} w-full`}>
+                <div className={`rounded-xl p-6 ${value.bgGradient} border border-gray-100/50 backdrop-blur-sm ${value.shadowColor} w-full gradient-card`}>
                   <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-4">{value.title}</h3>
                   <p className="text-sm sm:text-base text-muted-foreground">{value.description}</p>
                 </div>
@@ -122,7 +126,7 @@ export function Mission() {
             variants={itemVariants}
             className="mt-8 sm:mt-16 text-center"
           >
-            <div className="inline-block py-3 px-6 rounded-full bg-white/70 backdrop-blur-sm shadow-soft border border-gray-100">
+            <div className="inline-block py-3 px-6 rounded-full bg-white/70 backdrop-blur-sm shadow-soft border border-gray-100/50 gradient-card">
               <p className="text-base sm:text-xl font-semibold text-primary">
                 誰もが感情を大切にしながらハラスメントと向き合い
                 <br className="hidden sm:block" />
