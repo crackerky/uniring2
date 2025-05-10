@@ -39,6 +39,28 @@ export default function PhotosPage() {
   const [currentCategory, setCurrentCategory] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
+
+  // 画像URLの更新関数
+  const refreshImageUrl = async (fileName: string): Promise<string | null> => {
+    try {
+      if (!fileName) return null;
+      
+      // ファイル名からQueryパラメータを削除
+      const cleanFileName = fileName.split('?')[0];
+      
+      // Supabaseから新しい公開URLを取得
+      const { data } = supabase
+        .storage
+        .from('photos')
+        .getPublicUrl(cleanFileName);
+      
+      return data?.publicUrl || null;
+    } catch (error) {
+      console.error("写真URLの更新中にエラーが発生しました:", error);
+      return null;
+    }
+  };
 
   // 初期データの読み込み
   useEffect(() => {
@@ -59,30 +81,16 @@ export default function PhotosPage() {
         if (photos) {
           console.log("取得した写真データ:", photos);
           
-          // 写真データを変換し、新しい署名付きURLを取得する
           const transformedPhotos = await Promise.all(photos.map(async (photo: PhotoType) => {
             // ファイル名をURLから抽出
-            const fileNameMatch = photo.url.match(/[^/]+$/);
-            const fileName = fileNameMatch ? fileNameMatch[0].split('?')[0] : 'unknown';
-            
-            // 新しい署名付きURLを取得
-            let url = photo.url;
-            try {
-              // URLが既に署名されている場合は新しい署名付きURLを取得
-              if (photo.url.includes('supabase.co')) {
-                const { data } = supabase
-                  .storage
-                  .from('photos')
-                  .getPublicUrl(fileName);
-                
-                if (data && data.publicUrl) {
-                  url = data.publicUrl;
-                }
-              }
-            } catch (urlError) {
-              console.error("URL取得エラー:", urlError);
-              // エラーが発生しても元のURLを使用
+            let fileName = '';
+            const fileNameMatch = photo.url.match(/\/([^/?]+)(?:\?|$)/);
+            if (fileNameMatch && fileNameMatch[1]) {
+              fileName = fileNameMatch[1];
             }
+            
+            // ファイル名が見つからない場合はオリジナルのURLを使用
+            let url = photo.url;
             
             return {
               id: photo.id,
@@ -91,6 +99,7 @@ export default function PhotosPage() {
               title: photo.title,
               date: new Date(photo.date),
               category: photo.category,
+              fileName: fileName // ファイル名を保存しておく
             };
           }));
           
@@ -110,6 +119,37 @@ export default function PhotosPage() {
 
     fetchPhotos();
   }, [toast]);
+
+  // 画像読み込みエラー時の処理
+  const handleImageError = async (photoId: string, fileName: string) => {
+    if (imageErrors[photoId]) return; // 既にエラー処理中の場合はスキップ
+    
+    setImageErrors(prev => ({ ...prev, [photoId]: true }));
+    
+    try {
+      // 新しいURLを取得
+      const newUrl = await refreshImageUrl(fileName);
+      
+      if (newUrl) {
+        // 該当する写真のURLを更新
+        setPhotos(prevPhotos => 
+          prevPhotos.map(photo => 
+            photo.id === photoId ? { ...photo, url: newUrl } : photo
+          )
+        );
+        
+        // 選択中の写真も更新
+        if (selectedPhoto?.id === photoId) {
+          setSelectedPhoto(prev => prev ? { ...prev, url: newUrl } : null);
+        }
+        
+        // エラー状態をリセット
+        setImageErrors(prev => ({ ...prev, [photoId]: false }));
+      }
+    } catch (error) {
+      console.error("画像URL更新中にエラーが発生しました:", error);
+    }
+  };
 
   // コンポーネントのアンマウント時にObjectURLをクリーンアップ
   useEffect(() => {
@@ -351,6 +391,16 @@ export default function PhotosPage() {
     },
   };
 
+  // 画像の代替表示コンポーネント
+  const ImageFallback = ({ title }: { title: string }) => (
+    <div className="w-full h-full flex items-center justify-center bg-gray-100">
+      <div className="text-center">
+        <ImagePlus className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+        <p className="text-sm text-gray-500">{title || "画像が読み込めません"}</p>
+      </div>
+    </div>
+  );
+
   return (
     <section className="py-24">
       <div className="container mx-auto px-4">
@@ -465,7 +515,13 @@ export default function PhotosPage() {
                       sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                       className="object-cover"
                       loading="lazy"
-                      unoptimized={photo.url.includes('supabase.co')}
+                      unoptimized={true}
+                      onError={() => {
+                        const fileName = photo.url.split('/').pop();
+                        if (fileName) {
+                          handleImageError(photo.id, fileName);
+                        }
+                      }}
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
                       <Button
@@ -542,7 +598,13 @@ export default function PhotosPage() {
                   alt={selectedPhoto.title}
                   fill
                   className="object-contain"
-                  unoptimized={selectedPhoto.url.includes('supabase.co')}
+                  unoptimized={true}
+                  onError={() => {
+                    const fileName = selectedPhoto.url.split('/').pop();
+                    if (fileName) {
+                      handleImageError(selectedPhoto.id, fileName);
+                    }
+                  }}
                 />
               </div>
               <div className="space-y-4">
