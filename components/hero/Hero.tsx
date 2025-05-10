@@ -82,12 +82,13 @@ export function Hero() {
               <div className="relative aspect-square w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto">
                 <div className="absolute -inset-4 bg-white/30 rounded-full blur-2xl"></div>
                 <div className="absolute -inset-0 bg-gradient-to-br from-brand-pink/20 via-brand-blue/20 to-brand-yellow/20 rounded-full blur-md animate-pulse-soft"></div>
-                {/* Replacing local logo with placeholder circle logo */}
-                <div className="relative w-full h-full flex items-center justify-center">
-                  <div className="w-3/4 h-3/4 rounded-full bg-gradient-to-br from-brand-pink via-brand-blue to-brand-yellow relative z-10 flex items-center justify-center">
-                    <span className="text-4xl md:text-6xl font-bold text-white">Ü</span>
-                  </div>
-                </div>
+                <Image
+                  src="/logo-placeholder.png" 
+                  alt="Üniring Logo"
+                  fill
+                  priority
+                  className="object-contain relative z-10"
+                />
               </div>
             </motion.div>
           </div>

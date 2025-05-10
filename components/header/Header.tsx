@@ -52,11 +52,7 @@ export function Header() {
             href="/" 
             className="flex items-center space-x-2 font-bold text-xl md:text-2xl"
           >
-            {/* Simple text logo with gradient effect */}
-            <motion.span 
-              style={{ color: textColor }}
-              className="bg-gradient-to-r from-brand-pink via-brand-blue to-brand-yellow bg-clip-text text-transparent"
-            >
+            <motion.span style={{ color: textColor }}>
               {siteConfig.name}
             </motion.span>
           </Link>
