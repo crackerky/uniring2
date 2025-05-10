@@ -29,7 +29,7 @@ export const siteConfig = {
   ],
 };
 
-export const brandColors = {
+const brandColors = {
   pink: "#FFBFC7",
   blue: "#B5DCFF",
   cream: "#FFF7D6",
