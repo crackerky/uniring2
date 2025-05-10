@@ -1,3 +1,5 @@
+// Remove the dynamic directive to be compatible with static export
+
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
