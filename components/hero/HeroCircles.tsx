@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 
 export function HeroCircles() {
   return (
@@ -10,15 +9,12 @@ export function HeroCircles() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
-        className="relative aspect-square w-full"
+        className="relative aspect-square w-full flex items-center justify-center"
       >
-        <Image
-          src="/logo-placeholder.png" 
-          alt="Üniring Logo"
-          fill
-          priority
-          className="object-contain"
-        />
+        {/* Gradient circle logo */}
+        <div className="w-3/4 h-3/4 rounded-full bg-gradient-to-br from-brand-pink via-brand-blue to-brand-yellow relative z-10 flex items-center justify-center">
+          <span className="text-6xl md:text-8xl font-bold text-white">Ü</span>
+        </div>
       </motion.div>
     </div>
   );
