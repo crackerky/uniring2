@@ -83,7 +83,7 @@ export function Hero() {
                 <div className="absolute -inset-4 bg-white/30 rounded-full blur-2xl"></div>
                 <div className="absolute -inset-0 bg-gradient-to-br from-brand-pink/20 via-brand-blue/20 to-brand-yellow/20 rounded-full blur-md animate-pulse-soft"></div>
                 <Image
-                  src="https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/Screenshot%202025-05-03%20190858.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzIwM2Y1ZTM1LTY1MGQtNGUwZi1iY2YzLWZlMTQ0NDFjZjE0ZSJ9.eyJ1cmwiOiJwaG90by9TY3JlZW5zaG90IDIwMjUtMDUtMDMgMTkwODU4LnBuZyIsImlhdCI6MTc0NjI3MDc2NSwiZXhwIjoxNzQ2ODc1NTY1fQ.ldQHB-EPXv5-1kRSz10oVEYQUqV45hgqrBupaZY2LCA"
+                  src="/logo-placeholder.png" 
                   alt="Üniring Logo"
                   fill
                   priority
