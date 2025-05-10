@@ -1,5 +1,3 @@
-// Remove the dynamic directive to be compatible with static export
-
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
@@ -54,5 +52,3 @@ export async function DELETE(
     return NextResponse.json({ error: "写真の削除に失敗しました" }, { status: 500 });
   }
 }
-
-// Remove the dynamic directive to be compatible with static export
