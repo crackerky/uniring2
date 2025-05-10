@@ -1,10 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Removing 'output: export' to support dynamic API routes
+  output: 'export',
+  distDir: 'dist',
   eslint: {
     ignoreDuringBuilds: true,
   },
   images: { 
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
