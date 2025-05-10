@@ -2,12 +2,6 @@ import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 import { v4 as uuidv4 } from 'uuid';
 
-// Adding generateStaticParams to make compatible with static export
-export async function generateStaticParams() {
-  // For static export, we'll return an empty array
-  return [];
-}
-
 export async function GET() {
   try {
     const { data: photos, error } = await supabase
@@ -128,5 +122,3 @@ export async function POST(request: Request) {
     }, { status: 500 });
   }
 }
-
-// Remove the dynamic directive to be compatible with static export

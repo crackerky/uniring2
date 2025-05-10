@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  distDir: 'dist',
+  // Removing output:'export' and distDir to use server mode
   eslint: {
     ignoreDuringBuilds: true,
   },
