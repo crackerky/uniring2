@@ -46,4 +46,4 @@ export async function DELETE(
   }
 }
 
-export const dynamic = 'force-dynamic';
+// Remove the dynamic directive to be compatible with static export

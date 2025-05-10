@@ -123,4 +123,4 @@ export async function POST(request: Request) {
   }
 }
 
-export const dynamic = 'force-dynamic';
+// Remove the dynamic directive to be compatible with static export
