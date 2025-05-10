@@ -58,14 +58,42 @@ export default function PhotosPage() {
 
         if (photos) {
           console.log("取得した写真データ:", photos);
-          const transformedPhotos = photos.map((photo: PhotoType) => ({
-            id: photo.id,
-            file: new File([new Blob()], photo.filename || 'unknown', { type: photo.file_type }),
-            url: photo.url,
-            title: photo.title,
-            date: new Date(photo.date),
-            category: photo.category,
+          
+          // 写真データを変換し、新しい署名付きURLを取得する
+          const transformedPhotos = await Promise.all(photos.map(async (photo: PhotoType) => {
+            // ファイル名をURLから抽出
+            const fileNameMatch = photo.url.match(/[^/]+$/);
+            const fileName = fileNameMatch ? fileNameMatch[0].split('?')[0] : 'unknown';
+            
+            // 新しい署名付きURLを取得
+            let url = photo.url;
+            try {
+              // URLが既に署名されている場合は新しい署名付きURLを取得
+              if (photo.url.includes('supabase.co')) {
+                const { data } = supabase
+                  .storage
+                  .from('photos')
+                  .getPublicUrl(fileName);
+                
+                if (data && data.publicUrl) {
+                  url = data.publicUrl;
+                }
+              }
+            } catch (urlError) {
+              console.error("URL取得エラー:", urlError);
+              // エラーが発生しても元のURLを使用
+            }
+            
+            return {
+              id: photo.id,
+              file: new File([new Blob()], photo.filename || 'unknown', { type: photo.file_type }),
+              url: url,
+              title: photo.title,
+              date: new Date(photo.date),
+              category: photo.category,
+            };
           }));
+          
           setPhotos(transformedPhotos);
         }
       } catch (error) {
@@ -437,6 +465,7 @@ export default function PhotosPage() {
                       sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                       className="object-cover"
                       loading="lazy"
+                      unoptimized={photo.url.includes('supabase.co')}
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
                       <Button
@@ -513,6 +542,7 @@ export default function PhotosPage() {
                   alt={selectedPhoto.title}
                   fill
                   className="object-contain"
+                  unoptimized={selectedPhoto.url.includes('supabase.co')}
                 />
               </div>
               <div className="space-y-4">
