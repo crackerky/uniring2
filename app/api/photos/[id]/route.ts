@@ -3,6 +3,13 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
+// Adding generateStaticParams to make compatible with static export
+export async function generateStaticParams() {
+  // For static export, we'll just return an empty array
+  // This tells Next.js not to pre-render any specific photo ID pages
+  return [];
+}
+
 export async function DELETE(
   request: Request,
   { params }: { params: { id: string } }
