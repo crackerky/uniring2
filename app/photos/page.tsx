@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import imageCompression from "browser-image-compression";
 import { supabase } from "@/lib/supabase";
 import type { Photo as PhotoType } from "@/types/supabase";
 import { motion } from "framer-motion";
@@ -38,26 +37,30 @@ export default function PhotosPage() {
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [currentCategory, setCurrentCategory] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // 初期データの読み込み
   useEffect(() => {
     const fetchPhotos = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-
       try {
+        setIsLoading(true);
+        
         const { data: photos, error } = await supabase
           .from('photos')
           .select('*')
-          .order('created_at', { ascending: false })
-          .limit(100);
+          .order('created_at', { ascending: false });
 
-        if (error) throw error;
+        if (error) {
+          console.error("写真の取得エラー:", error);
+          throw error;
+        }
 
         if (photos) {
+          console.log("取得した写真データ:", photos);
           const transformedPhotos = photos.map((photo: PhotoType) => ({
             id: photo.id,
-            file: new File([new Blob()], photo.filename, { type: photo.file_type }),
+            file: new File([new Blob()], photo.filename || 'unknown', { type: photo.file_type }),
             url: photo.url,
             title: photo.title,
             date: new Date(photo.date),
@@ -72,6 +75,8 @@ export default function PhotosPage() {
           title: "エラー",
           description: "写真の読み込みに失敗しました。",
         });
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -83,118 +88,113 @@ export default function PhotosPage() {
     return () => {
       // クリーンアップ関数でObjectURLを解放
       photos.forEach(photo => {
-        URL.revokeObjectURL(photo.url);
+        if (photo.url && photo.url.startsWith('blob:')) {
+          URL.revokeObjectURL(photo.url);
+        }
       });
     };
   }, [photos]);
 
   // 写真のアップロード処理
-  const handlePhotoUpload = (files: FileList | null) => {
-    if (!files) return;
+  const handlePhotoUpload = async (files: FileList | null) => {
+    if (!files || files.length === 0) {
+      toast({
+        variant: "destructive",
+        title: "エラー",
+        description: "アップロードするファイルが選択されていません。"
+      });
+      return;
+    }
     
     const validFileTypes = ['image/jpeg', 'image/png', 'image/gif'];
     let hasErrors = false;
+    
+    setIsLoading(true);
 
-    const processFiles = async () => {
-      const newPhotos: Photo[] = [];
-
+    try {
       for (const file of Array.from(files)) {
         // ファイル形式のチェック
         if (!validFileTypes.includes(file.type)) {
-          hasErrors = true;
           toast({
             variant: "destructive",
             title: "非対応のファイル形式です",
-            description: "JPG、PNG、GIF形式のファイルのみアップロードできます。"
+            description: `${file.name}: JPG、PNG、GIF形式のファイルのみアップロードできます。`
           });
           continue;
         }
 
-        try {
-          // 画像の圧縮
-          const options = {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 1920,
-            useWebWorker: true
-          };
-
-          const compressedFile = await imageCompression(file, options);
-
-          // FormDataの作成
-          const formData = new FormData();
-          formData.append('file', compressedFile);
-          formData.append('title', file.name.split('.')[0]);
-          formData.append('category', 'その他');
-          formData.append('date', new Date().toISOString());
-
-          // Supabaseにアップロード
-          const fileExt = file.name.split('.').pop()?.toLowerCase();
-          const fileName = `${Date.now()}.${fileExt}`;
-          
-          const { data: uploadData, error: uploadError } = await supabase.storage
-            .from('photos')
-            .upload(fileName, compressedFile);
-
-          if (uploadError) throw uploadError;
-
-          // 公開URLの取得
-          const { data: { publicUrl } } = supabase.storage
-            .from('photos')
-            .getPublicUrl(fileName);
-
-          // メタデータをデータベースに保存
-          const { data: photoData, error: insertError } = await supabase
-            .from('photos')
-            .insert({
-              filename: file.name,
-              file_size: compressedFile.size,
-              file_type: compressedFile.type,
-              title: file.name.split('.')[0],
-              category: 'その他',
-              date: new Date().toISOString(),
-              url: publicUrl
-            })
-            .select()
-            .single();
-
-          if (insertError) throw insertError;
-
-          // 写真オブジェクトの作成
-          newPhotos.push({
-            id: photoData.id,
-            file: compressedFile,
-            url: publicUrl,
-            title: photoData.title,
-            date: new Date(photoData.date),
-            category: photoData.category
-          });
-
-        } catch (error) {
-          hasErrors = true;
+        // ファイルサイズのチェック (10MB制限)
+        const maxSizeInBytes = 10 * 1024 * 1024; // 10MB
+        if (file.size > maxSizeInBytes) {
           toast({
             variant: "destructive",
-            title: "アップロード中にエラーが発生しました",
-            description: "写真の処理中に問題が発生しました。もう一度お試しください。"
+            title: "ファイルサイズが制限を超えています",
+            description: `${file.name}: ファイルサイズは10MB以下にしてください。`
           });
+          continue;
+        }
+
+        // FormDataの作成
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('title', file.name.split('.')[0]);
+        formData.append('category', 'その他');
+        formData.append('date', new Date().toISOString());
+
+        console.log("アップロード処理開始:", file.name);
+
+        // APIを使ってアップロード
+        const response = await fetch('/api/photos', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error("アップロードエラー:", errorData);
+          toast({
+            variant: "destructive",
+            title: "アップロード失敗",
+            description: errorData.error || "写真のアップロードに失敗しました。"
+          });
+          hasErrors = true;
+          continue;
+        }
+
+        const data = await response.json();
+        console.log("アップロード成功:", data);
+
+        if (data.photo) {
+          // 新しい写真を追加
+          const newPhoto: Photo = {
+            id: data.photo.id,
+            file: file,
+            url: data.photo.url,
+            title: data.photo.title,
+            date: new Date(data.photo.date),
+            category: data.photo.category
+          };
+
+          setPhotos(prev => [newPhoto, ...prev]);
         }
       }
 
-      if (newPhotos.length > 0) {
-        setPhotos(prev => [...prev, ...newPhotos]);
+      if (!hasErrors) {
         toast({
           title: "アップロード完了",
-          description: `${newPhotos.length}枚の写真がアップロードされました。`
-        });
-      } else if (!hasErrors) {
-        toast({
-          variant: "destructive",
-          title: "アップロードエラー",
-          description: "アップロードする写真がありませんでした。"
+          description: "写真が正常にアップロードされました。"
         });
       }
-    };
-
-    processFiles();
+    } catch (error) {
+      console.error("アップロード処理中の例外:", error);
+      toast({
+        variant: "destructive",
+        title: "エラー",
+        description: "写真のアップロード中に問題が発生しました。"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // ドラッグ&ドロップのイベントハンドラー
@@ -216,84 +216,78 @@ export default function PhotosPage() {
   };
 
   // 写真の削除
-  const handleDeletePhoto = (id: string) => {
+  const handleDeletePhoto = async (id: string) => {
     const photo = photos.find(p => p.id === id);
-    if (photo) {
-      const deletePhoto = async () => {
-        // ストレージからファイルを削除
-        const fileName = photo.url.split('photos/')[1]?.split('?')[0];
-        if (!fileName) throw new Error('ファイル名の取得に失敗しました');
-
-        const { error: storageError } = await supabase.storage
-          .from('photos')
-          .remove([fileName]);
-
-        if (storageError) throw storageError;
-
-        // データベースから写真を削除
-        const { error: deleteError } = await supabase
-          .from('photos')
-          .delete()
-          .eq('id', id);
-
-        if (deleteError) throw deleteError;
-
-        // 成功したら状態を更新
-        setPhotos(photos.filter(p => p.id !== id));
-        
-        if (selectedPhoto?.id === id) {
-          setSelectedPhoto(null);
-        }
-        
-        toast({
-          title: "写真を削除しました",
-          description: "写真が正常に削除されました。"
-        });
-      };
-
-      deletePhoto().catch(error => {
-        toast({
-          variant: "destructive",
-          title: "エラー",
-          description: "写真の削除に失敗しました。"
-        });
+    if (!photo) return;
+    
+    try {
+      setIsLoading(true);
+      
+      const response = await fetch(`/api/photos/${id}`, {
+        method: 'DELETE',
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "写真の削除に失敗しました");
+      }
+
+      // UIから削除
+      setPhotos(photos.filter(p => p.id !== id));
+      
+      if (selectedPhoto?.id === id) {
+        setSelectedPhoto(null);
+      }
+      
+      toast({
+        title: "写真を削除しました",
+        description: "写真が正常に削除されました。"
+      });
+    } catch (error) {
+      console.error("写真の削除中にエラーが発生しました:", error);
+      toast({
+        variant: "destructive",
+        title: "エラー",
+        description: error instanceof Error ? error.message : "写真の削除に失敗しました"
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   // 写真の更新
-  const handleUpdatePhoto = (updatedPhoto: Photo) => {
-    const updatePhoto = async () => {
-      try {
-        const { error } = await supabase
-          .from('photos')
-          .update({
-            title: updatedPhoto.title,
-            category: updatedPhoto.category,
-            date: updatedPhoto.date.toISOString()
-          })
-          .eq('id', updatedPhoto.id);
+  const handleUpdatePhoto = async (updatedPhoto: Photo) => {
+    try {
+      setIsLoading(true);
+      
+      const { error } = await supabase
+        .from('photos')
+        .update({
+          title: updatedPhoto.title,
+          category: updatedPhoto.category,
+          date: updatedPhoto.date.toISOString()
+        })
+        .eq('id', updatedPhoto.id);
 
-        if (error) throw error;
+      if (error) throw error;
 
-        setPhotos(photos.map(p => p.id === updatedPhoto.id ? {...updatedPhoto} : p));
-        setSelectedPhoto(null);
-        
-        toast({
-          title: "写真を更新しました",
-          description: "写真の情報が正常に更新されました。"
-        });
-      } catch (error) {
-        console.error("写真の更新中にエラーが発生しました:", error);
-        toast({
-          variant: "destructive",
-          title: "エラー",
-          description: "写真の更新に失敗しました。"
-        });
-      }
-    };
-
-    updatePhoto();
+      setPhotos(photos.map(p => p.id === updatedPhoto.id ? {...updatedPhoto} : p));
+      setSelectedPhoto(null);
+      
+      toast({
+        title: "写真を更新しました",
+        description: "写真の情報が正常に更新されました。"
+      });
+    } catch (error) {
+      console.error("写真の更新中にエラーが発生しました:", error);
+      toast({
+        variant: "destructive",
+        title: "エラー",
+        description: "写真の更新に失敗しました。"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // 写真の詳細を表示する際のハンドラー
@@ -373,6 +367,7 @@ export default function PhotosPage() {
                 multiple
                 accept="image/jpeg,image/png,image/gif"
                 onChange={(e) => handlePhotoUpload(e.target.files)}
+                disabled={isLoading}
               />
               <ImagePlus className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
               <p className="text-lg font-medium mb-2">
@@ -380,11 +375,11 @@ export default function PhotosPage() {
               </p>
               <p className="text-sm text-muted-foreground mb-4">
                 または、クリックしてファイルを選択してください<br />
-                対応形式: JPG, PNG, GIF (最大5MB)
+                対応形式: JPG, PNG, GIF (最大10MB)
               </p>
-              <Button type="button">
+              <Button type="button" disabled={isLoading}>
                 <Upload className="mr-2 h-4 w-4" />
-                写真をアップロード
+                {isLoading ? "処理中..." : "写真をアップロード"}
               </Button>
             </div>
           </motion.div>
@@ -416,7 +411,14 @@ export default function PhotosPage() {
           </motion.div>
 
           {/* 写真ギャラリー */}
-          {filteredPhotos.length > 0 ? (
+          {isLoading && photos.length === 0 ? (
+            <motion.div
+              variants={itemVariants}
+              className="text-center py-12"
+            >
+              <p className="text-muted-foreground">読み込み中...</p>
+            </motion.div>
+          ) : filteredPhotos.length > 0 ? (
             <motion.div
               variants={itemVariants}
               className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
@@ -443,6 +445,7 @@ export default function PhotosPage() {
                         className="text-white mr-2"
                         onClick={() => handleSelectPhoto(photo)}
                         type="button"
+                        disabled={isLoading}
                       >
                         <Expand className="h-5 w-5" />
                       </Button>
@@ -455,6 +458,7 @@ export default function PhotosPage() {
                           handleDeletePhoto(photo.id);
                         }}
                         type="button"
+                        disabled={isLoading}
                       >
                         <Trash2 className="h-5 w-5" />
                       </Button>
@@ -478,6 +482,7 @@ export default function PhotosPage() {
               <Button 
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
+                disabled={isLoading}
               >
                 <Plus className="mr-2 h-4 w-4" />
                 写真を追加する
@@ -568,6 +573,7 @@ export default function PhotosPage() {
                     <Button 
                       type="button"
                       variant="outline"
+                      disabled={isLoading}
                     >
                       キャンセル
                     </Button>
@@ -575,8 +581,9 @@ export default function PhotosPage() {
                   <Button 
                     type="button"
                     onClick={() => handleUpdatePhoto(selectedPhoto)}
+                    disabled={isLoading}
                   >
-                    保存
+                    {isLoading ? "保存中..." : "保存"}
                   </Button>
                 </div>
               </div>
