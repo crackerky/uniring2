@@ -17,6 +17,14 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    fontLoaders: [
+      {
+        loader: '@next/font/google',
+        options: { timeout: 20000 }, // Increased timeout to 20 seconds
+      },
+    ],
+  },
   webpack: (config, { dev }) => {
     // Disable cache in development to prevent cache corruption issues
     if (dev) {
