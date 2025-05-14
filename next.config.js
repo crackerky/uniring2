@@ -17,11 +17,18 @@ const nextConfig = {
       },
     ],
   },
+  // Simplified font loading configuration with increased timeout
   experimental: {
     fontLoaders: [
       {
         loader: '@next/font/google',
-        options: { timeout: 60000 }, // Increased timeout to 60 seconds
+        options: { 
+          subsets: ['latin', 'japanese'],
+          display: 'swap',
+          fallback: ['system-ui', 'arial'],
+          timeout: 120000, // Increased timeout to 120 seconds
+          preload: true,
+        },
       },
     ],
   },
