@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Removing output:'export' and distDir to use server mode
+  // Using server mode for Netlify deployment
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -32,6 +32,8 @@ const nextConfig = {
     }
     return config;
   },
+  // Required for Netlify
+  trailingSlash: false,
 };
 
 module.exports = nextConfig;
