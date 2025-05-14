@@ -21,7 +21,7 @@ const nextConfig = {
     fontLoaders: [
       {
         loader: '@next/font/google',
-        options: { timeout: 20000 }, // Increased timeout to 20 seconds
+        options: { timeout: 30000 }, // Increased timeout to 30 seconds
       },
     ],
   },
