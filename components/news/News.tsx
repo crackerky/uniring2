@@ -8,20 +8,20 @@ import Image from "next/image";
 const newsItems = [
   {
     date: "2025年4月27日",
-    title: "学生団体Youth Inyersection主催高校生・大学生向け交流会登壇",
-    image: "https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg",
+    title: "学生団体Youth Intersection主催高校生・大学生向け交流会登壇",
+    image: "https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/presentation%20view.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by9wcmVzZW50YXRpb24gdmlldy5wbmciLCJpYXQiOjE3NDg4NTgyMzUsImV4cCI6MTc4MDM5NDIzNX0.eBOBk2yJM62YcbPl1J413L4knlG9dd5FatO71iemQfw",
     link: "/news"
   },
   {
     date: "2025年4月20日",
     title: "朝日新聞社中高生新聞掲載",
-    image: "https://images.pexels.com/photos/518543/pexels-photo-518543.jpeg",
+    image: "https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/newspaper%20entre%20lab.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by9uZXdzcGFwZXIgZW50cmUgbGFiLnBuZyIsImlhdCI6MTc0ODg1ODc1NCwiZXhwIjoxNzgwMzk0NzU0fQ.MaNrwU3E6UFYwna4OKVvWfrbFDByzDIAkP5pK4A1ZgU",
     link: "/news"
   },
   {
     date: "2025年3月30日",
     title: "第二回ワークショップ開催・TSGプロジェクトフェア参加",
-    image: "https://images.pexels.com/photos/7516363/pexels-photo-7516363.jpeg",
+    image: "https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/view%20of%20MTG.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by92aWV3IG9mIE1URy5wbmciLCJpYXQiOjE3NDg4NTg4MjQsImV4cCI6MTc4MDM5NDgyNH0.6Yb4fGsyOgDR1u8DjirOYODhFA9sTx2JzowuQJo6bHE",
     link: "/news"
   }
 ];
