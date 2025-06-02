@@ -83,7 +83,7 @@ export function Hero() {
                 <div className="absolute -inset-4 bg-white/30 rounded-full blur-2xl"></div>
                 <div className="absolute -inset-0 bg-gradient-to-br from-brand-pink/20 via-brand-blue/20 to-brand-yellow/20 rounded-full blur-md animate-pulse-soft"></div>
                 <Image
-                  src="https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/Screenshot%202025-05-03%20190858.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzIwM2Y1ZTM1LTY1MGQtNGUwZi1iY2YzLWZlMTQ0NDFjZjE0ZSJ9.eyJ1cmwiOiJwaG90by9TY3JlZW5zaG90IDIwMjUtMDUtMDMgMTkwODU4LnBuZyIsImlhdCI6MTc0Njg4NzcxMSwiZXhwIjoxNzc4NDIzNzExfQ.Y5kRp9SNgYgE3vxwl_eX5gwKRIzvu-WcduLqWN8F2so" 
+                  src="https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/main%20logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by9tYWluIGxvZ28ucG5nIiwiaWF0IjoxNzQ4ODU5NTQ1LCJleHAiOjE3ODAzOTU1NDV9.h2YAYHLZ5Sa1_4_EkjjiYqaPLFIc-14QPXuL8syZ5LM"
                   alt="Üniring Logo"
                   fill
                   priority
