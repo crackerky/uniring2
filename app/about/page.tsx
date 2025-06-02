@@ -42,6 +42,17 @@ export default function AboutPage() {
             私たちについて
           </motion.h1>
 
+          <motion.div variants={itemVariants} className="mb-12">
+            <div className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden">
+              <Image
+                src="https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/view%20of%20working.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by92aWV3IG9mIHdvcmtpbmcucG5nIiwiaWF0IjoxNzQ4ODU4ODYwLCJleHAiOjE3ODAzOTQ4NjB9.QY8HFqliMZ_59BPZ7wkB7a8hUQCKt7Xrf3PbJ8bOQdU"
+                alt="私たちについて"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </motion.div>
+
           <motion.div variants={itemVariants} className="space-y-12">
             <div className="space-y-6">
               <h2 className="text-2xl font-bold">団体概要</h2>
