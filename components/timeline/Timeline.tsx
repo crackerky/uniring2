@@ -38,7 +38,7 @@ const timelineEvents = [
   { 
     date: "2025年2月22日", 
     title: "「ハラスメントのメタ認知」マイプロジェクトアワード地域summit advanced出場",
-    image: "https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/MY%20PROJECT%20AWARD.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by9NWSBQUk9KRUNUIEFXQVJELnBuZyIsImlhdCI6MTc0ODg1ODI5OSwiZXhwIjoxNzgwMzk0Mjk5fQ.XQ0a3xXo1vcbwsZ_i-Tm6won-vgiaQlshzrDnbYTysk"
+    image: "https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/my%20project%20award%202.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by9teSBwcm9qZWN0IGF3YXJkIDIucG5nIiwiaWF0IjoxNzQ4ODU4MzM1LCJleHAiOjE3ODAzOTQzMzV9.OKQp-azBIvUwWBRyrCWn_d3GUPWJnHcY7TvXHOJW7b8"
   },
   { 
     date: "2025年3月24日", 
@@ -238,7 +238,8 @@ export function Timeline() {
                         </p>
                       </div>
                     </motion.div>
-                  )})};
+                    );
+                  })}
                 </div>
               </div>
             </div>
