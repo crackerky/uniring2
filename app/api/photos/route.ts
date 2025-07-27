@@ -46,6 +46,28 @@ const mockPhotos = [
     date: '2025-07-10T00:00:00.000Z',
     url: '/images/student-id.jpg',
     created_at: '2025-07-10T00:00:00.000Z'
+  },
+  {
+    id: '5',
+    filename: 'hana.jpg',
+    file_size: 148000,
+    file_type: 'image/jpeg',
+    title: 'はな - メンバー写真',
+    category: 'メンバー',
+    date: '2025-07-27T00:00:00.000Z',
+    url: '/images/hana.jpg',
+    created_at: '2025-07-27T00:00:00.000Z'
+  },
+  {
+    id: '6',
+    filename: 'representative.jpg',
+    file_size: 214000,
+    file_type: 'image/jpeg',
+    title: '代表 - 団体代表者の写真',
+    category: 'メンバー',
+    date: '2025-07-27T00:00:00.000Z',
+    url: '/images/representative.jpg',
+    created_at: '2025-07-27T00:00:00.000Z'
   }
 ];
 
