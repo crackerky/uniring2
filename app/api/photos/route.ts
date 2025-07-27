@@ -1,40 +1,51 @@
 import { NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 
-// Mock photo data
+// Mock photo data using local images
 const mockPhotos = [
   {
     id: '1',
-    filename: 'presentation-view.png',
-    file_size: 1024000,
+    filename: 'uniring-logo.png',
+    file_size: 84116,
     file_type: 'image/png',
-    title: '学生団体Youth Intersection主催交流会',
-    category: 'イベント',
-    date: '2025-04-27T00:00:00.000Z',
-    url: 'https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/presentation%20view.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by9wcmVzZW50YXRpb24gdmlldy5wbmciLCJpYXQiOjE3NDg4NTgyMzUsImV4cCI6MTc4MDM5NDIzNX0.eBOBk2yJM62YcbPl1J413L4knlG9dd5FatO71iemQfw',
-    created_at: '2025-04-27T00:00:00.000Z'
+    title: 'Üniringロゴ - 団体のメインロゴ',
+    category: 'ロゴ・ブランディング',
+    date: '2025-04-25T00:00:00.000Z',
+    url: '/images/uniring-logo.png',
+    created_at: '2025-04-25T00:00:00.000Z'
   },
   {
     id: '2',
-    filename: 'newspaper-entre-lab.png',
-    file_size: 2048000,
+    filename: 'tsubasa-logo.png',
+    file_size: 1634328,
     file_type: 'image/png',
-    title: '朝日新聞社中高生新聞掲載',
-    category: 'メディア掲載',
-    date: '2025-04-20T00:00:00.000Z',
-    url: 'https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/newspaper%20entre%20lab.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by9uZXdzcGFwZXIgZW50cmUgbGFiLnBuZyIsImlhdCI6MTc0ODg1ODc1NCwiZXhwIjoxNzgwMzk0NzU0fQ.MaNrwU3E6UFYwna4OKVvWfrbFDByzDIAkP5pK4A1ZgU',
-    created_at: '2025-04-20T00:00:00.000Z'
+    title: 'つばさロゴ - プロジェクトロゴ',
+    category: 'ロゴ・ブランディング',
+    date: '2025-05-21T00:00:00.000Z',
+    url: '/images/tsubasa-logo.png',
+    created_at: '2025-05-21T00:00:00.000Z'
   },
   {
     id: '3',
-    filename: 'view-of-mtg.png',
-    file_size: 1536000,
+    filename: 'h-logo.png',
+    file_size: 1572237,
     file_type: 'image/png',
-    title: '第二回ワークショップ開催',
-    category: 'ワークショップ',
-    date: '2025-03-30T00:00:00.000Z',
-    url: 'https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/view%20of%20MTG.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by92aWV3IG9mIE1URy5wbmciLCJpYXQiOjE3NDg4NTg4MjQsImV4cCI6MTc4MDM5NDgyNH0.6Yb4fGsyOgDR1u8DjirOYODhFA9sTx2JzowuQJo6bHE',
-    created_at: '2025-03-30T00:00:00.000Z'
+    title: 'Hロゴ - 完成版',
+    category: 'ロゴ・ブランディング',
+    date: '2025-05-21T00:00:00.000Z',
+    url: '/images/h-logo.png',
+    created_at: '2025-05-21T00:00:00.000Z'
+  },
+  {
+    id: '4',
+    filename: 'student-id.jpg',
+    file_size: 304581,
+    file_type: 'image/jpeg',
+    title: '学生証 - メンバー紹介',
+    category: 'メンバー',
+    date: '2025-07-10T00:00:00.000Z',
+    url: '/images/student-id.jpg',
+    created_at: '2025-07-10T00:00:00.000Z'
   }
 ];
 
