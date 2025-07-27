@@ -1,17 +1,47 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
 import { v4 as uuidv4 } from 'uuid';
+
+// Mock photo data
+const mockPhotos = [
+  {
+    id: '1',
+    filename: 'presentation-view.png',
+    file_size: 1024000,
+    file_type: 'image/png',
+    title: '学生団体Youth Intersection主催交流会',
+    category: 'イベント',
+    date: '2025-04-27T00:00:00.000Z',
+    url: 'https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/presentation%20view.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by9wcmVzZW50YXRpb24gdmlldy5wbmciLCJpYXQiOjE3NDg4NTgyMzUsImV4cCI6MTc4MDM5NDIzNX0.eBOBk2yJM62YcbPl1J413L4knlG9dd5FatO71iemQfw',
+    created_at: '2025-04-27T00:00:00.000Z'
+  },
+  {
+    id: '2',
+    filename: 'newspaper-entre-lab.png',
+    file_size: 2048000,
+    file_type: 'image/png',
+    title: '朝日新聞社中高生新聞掲載',
+    category: 'メディア掲載',
+    date: '2025-04-20T00:00:00.000Z',
+    url: 'https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/newspaper%20entre%20lab.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by9uZXdzcGFwZXIgZW50cmUgbGFiLnBuZyIsImlhdCI6MTc0ODg1ODc1NCwiZXhwIjoxNzgwMzk0NzU0fQ.MaNrwU3E6UFYwna4OKVvWfrbFDByzDIAkP5pK4A1ZgU',
+    created_at: '2025-04-20T00:00:00.000Z'
+  },
+  {
+    id: '3',
+    filename: 'view-of-mtg.png',
+    file_size: 1536000,
+    file_type: 'image/png',
+    title: '第二回ワークショップ開催',
+    category: 'ワークショップ',
+    date: '2025-03-30T00:00:00.000Z',
+    url: 'https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/view%20of%20MTG.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by92aWV3IG9mIE1URy5wbmciLCJpYXQiOjE3NDg4NTg4MjQsImV4cCI6MTc4MDM5NDgyNH0.6Yb4fGsyOgDR1u8DjirOYODhFA9sTx2JzowuQJo6bHE',
+    created_at: '2025-03-30T00:00:00.000Z'
+  }
+];
 
 export async function GET() {
   try {
-    const { data: photos, error } = await supabase
-      .from('photos')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (error) throw error;
-
-    return NextResponse.json({ photos }, { status: 200 });
+    // Return mock photos
+    return NextResponse.json({ photos: mockPhotos }, { status: 200 });
   } catch (error) {
     console.error("写真の取得中にエラーが発生しました:", error);
     return NextResponse.json({ error: "写真の取得に失敗しました" }, { status: 500 });
@@ -54,61 +84,23 @@ export async function POST(request: Request) {
 
     console.log(`処理中のファイル: ${file.name}, サイズ: ${file.size}, タイプ: ${file.type}`);
     
-    // ファイルをバッファに変換
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    // Mock upload - in a real app, you would save to your storage
+    console.log("Mock upload:", fileName);
+    
+    // Create mock photo data
+    const photoData = {
+      id,
+      filename: file.name,
+      file_size: file.size,
+      file_type: file.type,
+      title,
+      category,
+      date: date.toISOString(),
+      url: `/mock-photos/${fileName}`, // Mock URL
+      created_at: new Date().toISOString()
+    };
 
-    // Supabaseのストレージにアップロード
-    const { data: uploadData, error: uploadError } = await supabase
-      .storage
-      .from('photos')
-      .upload(fileName, buffer, {
-        contentType: file.type,
-        cacheControl: '3600',
-        upsert: false
-      });
-
-    if (uploadError) {
-      console.error("ストレージへのアップロード中にエラーが発生しました:", uploadError);
-      throw uploadError;
-    }
-
-    console.log("ストレージへのアップロードが成功しました:", fileName);
-
-    // 公開URLの取得
-    const { data: { publicUrl } } = supabase
-      .storage
-      .from('photos')
-      .getPublicUrl(fileName);
-
-    console.log("公開URL:", publicUrl);
-
-    // メタデータをデータベースに保存
-    const { data: photoData, error: insertError } = await supabase
-      .from('photos')
-      .insert({
-        id,
-        filename: file.name,
-        file_size: file.size,
-        file_type: file.type,
-        title,
-        category,
-        date: date.toISOString(),
-        url: publicUrl
-      })
-      .select()
-      .single();
-
-    if (insertError) {
-      console.error("データベースへの保存中にエラーが発生しました:", insertError);
-      
-      // ストレージからファイルを削除（ロールバック）
-      await supabase.storage.from('photos').remove([fileName]);
-      
-      throw insertError;
-    }
-
-    console.log("データベースへの保存が成功しました:", photoData);
+    console.log("Mock save successful:", photoData);
 
     return NextResponse.json({ 
       message: "写真が正常にアップロードされました", 

@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
-import type { Photo as PhotoType } from "@/types/supabase";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Upload, Expand, Trash2, Plus, ImagePlus } from "lucide-react";
@@ -41,21 +39,13 @@ export default function PhotosPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
-  // 画像URLの更新関数
+  // 画像URLの更新関数 (Mock implementation)
   const refreshImageUrl = async (fileName: string): Promise<string | null> => {
     try {
       if (!fileName) return null;
       
-      // ファイル名からQueryパラメータを削除
-      const cleanFileName = fileName.split('?')[0];
-      
-      // Supabaseから新しい公開URLを取得
-      const { data } = supabase
-        .storage
-        .from('photos')
-        .getPublicUrl(cleanFileName);
-      
-      return data?.publicUrl || null;
+      // Mock: return the same URL
+      return fileName;
     } catch (error) {
       console.error("写真URLの更新中にエラーが発生しました:", error);
       return null;
@@ -68,20 +58,18 @@ export default function PhotosPage() {
       try {
         setIsLoading(true);
         
-        const { data: photos, error } = await supabase
-          .from('photos')
-          .select('*')
-          .order('created_at', { ascending: false });
+        // Fetch from API route
+        const response = await fetch('/api/photos');
+        const data = await response.json();
 
-        if (error) {
-          console.error("写真の取得エラー:", error);
-          throw error;
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to fetch photos');
         }
 
-        if (photos) {
-          console.log("取得した写真データ:", photos);
+        if (data.photos) {
+          console.log("取得した写真データ:", data.photos);
           
-          const transformedPhotos = await Promise.all(photos.map(async (photo: PhotoType) => {
+          const transformedPhotos = data.photos.map((photo: any) => {
             // ファイル名をURLから抽出
             let fileName = '';
             const fileNameMatch = photo.url.match(/\/([^/?]+)(?:\?|$)/);
@@ -89,19 +77,16 @@ export default function PhotosPage() {
               fileName = fileNameMatch[1];
             }
             
-            // ファイル名が見つからない場合はオリジナルのURLを使用
-            let url = photo.url;
-            
             return {
               id: photo.id,
               file: new File([new Blob()], photo.filename || 'unknown', { type: photo.file_type }),
-              url: url,
+              url: photo.url,
               title: photo.title,
               date: new Date(photo.date),
               category: photo.category,
               fileName: fileName // ファイル名を保存しておく
             };
-          }));
+          });
           
           setPhotos(transformedPhotos);
         }
@@ -328,17 +313,10 @@ export default function PhotosPage() {
     try {
       setIsLoading(true);
       
-      const { error } = await supabase
-        .from('photos')
-        .update({
-          title: updatedPhoto.title,
-          category: updatedPhoto.category,
-          date: updatedPhoto.date.toISOString()
-        })
-        .eq('id', updatedPhoto.id);
+      // Mock update - in a real app, you would send this to your API
+      console.log("Mock update photo:", updatedPhoto);
 
-      if (error) throw error;
-
+      // Update local state
       setPhotos(photos.map(p => p.id === updatedPhoto.id ? {...updatedPhoto} : p));
       setSelectedPhoto(null);
       
