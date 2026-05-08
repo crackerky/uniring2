@@ -8,61 +8,100 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const timelineEvents = [
-  { 
-    date: "2023年5月", 
+  {
+    date: "2023年5月",
     title: "Üniring結成",
-    image: "https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/club.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by9jbHViLnBuZyIsImlhdCI6MTc0ODg1ODQzNCwiZXhwIjoxNzgwMzk0NDM0fQ.rMKAvdu5e3ipkOZMOqKSewpA4W92jbZDIWIbxMpP1wY"
   },
-  { 
-    date: "2024年3月", 
+  {
+    date: "2024年3月25日",
     title: "TOKYO EDUCATION LAB主催「起業LAB」最終プレゼンテーション大会最優秀賞受賞",
     highlight: true,
-    image: "https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/REWARD.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by9SRVdBUkQucG5nIiwiaWF0IjoxNzQ4ODU4NDkwLCJleHAiOjE3ODAzOTQ0OTB9.EDW1mZ5yySANMic56n6IZi8-hulI3dt4pyissdm6SOE"
+    image: "/images/uniring/20240325-kigyo-lab-grandprix.jpg"
   },
-  { 
-    date: "2025年1月20日", 
-    title: "第一回ワークショップ開催",
-    image: "https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/presentation%20.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by9wcmVzZW50YXRpb24gLnBuZyIsImlhdCI6MTc0ODg1ODYwMiwiZXhwIjoxNzgwMzk0NjAyfQ.ian1ghvi2W3RxJYHbeLWvqIyl22QrG-PoAJw0bJbGNc"
+  {
+    date: "2025年1月20日",
+    title: "【ワークショップ開催】駒場学園高校 起業LAB 4期",
+    image: "/images/uniring/20250120-komaba-kigyo-lab4.jpg"
   },
-  { 
-    date: "2025年2月14日", 
+  {
+    date: "2025年2月14日",
     title: "「ハラスメントを楽しく学ぼう〜アカハラはイグハラ〜」「ハラスメントのメタ認知」マイプロジェクトアワード特別賞受賞",
     highlight: true,
-    image: "https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/presentation%20.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by9wcmVzZW50YXRpb24gLnBuZyIsImlhdCI6MTc0ODg1ODUzOSwiZXhwIjoxNzgwMzk0NTM5fQ.pfPdziTB3njSjw2TsgxMrDejun11Y1L6NwJPXld7GaM"
+    image: "/images/uniring/20250214-myproject-award.jpg"
   },
-  { 
-    date: "2025年2月14日", 
+  {
+    date: "2025年2月14日",
     title: "クラウドファンディング開始",
-    image: "https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/presentation%20.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by9wcmVzZW50YXRpb24gLnBuZyIsImlhdCI6MTc0ODg1ODYwMiwiZXhwIjoxNzgwMzk0NjAyfQ.ian1ghvi2W3RxJYHbeLWvqIyl22QrG-PoAJw0bJbGNc"
+    image: "/images/uniring/20250214-crowdfunding-start.jpg"
   },
-  { 
-    date: "2025年2月22日", 
+  {
+    date: "2025年2月22日",
     title: "「ハラスメントのメタ認知」マイプロジェクトアワード地域summit advanced出場",
-    image: "https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/my%20project%20award%202.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by9teSBwcm9qZWN0IGF3YXJkIDIucG5nIiwiaWF0IjoxNzQ4ODU4MzM1LCJleHAiOjE3ODAzOTQzMzV9.OKQp-azBIvUwWBRyrCWn_d3GUPWJnHcY7TvXHOJW7b8"
+    image: "/images/uniring/20250222-myproject-summit.jpg"
   },
-  { 
-    date: "2025年3月24日", 
-    title: "クラウドファンディング目標達成"
+  {
+    date: "2025年3月24日",
+    title: "クラウドファンディング目標達成",
+    image: "/images/uniring/20250324-crowdfunding-success.png"
   },
-  { 
-    date: "2025年3月30日", 
-    title: "第二回ワークショップ開催・TSGプロジェクトフェア参加",
-    image: "https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/view%20of%20MTG.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by92aWV3IG9mIE1URy5wbmciLCJpYXQiOjE3NDg4NTg4MjQsImV4cCI6MTc4MDM5NDgyNH0.6Yb4fGsyOgDR1u8DjirOYODhFA9sTx2JzowuQJo6bHE"
+  {
+    date: "2025年3月30日",
+    title: "【ワークショップ開催】Tokyo Startup Gatewayプロジェクト・フェア出展",
+    image: "/images/uniring/20250330-tsg-fair.jpg"
   },
-  { 
-    date: "2025年4月20日", 
+  {
+    date: "2025年4月20日",
     title: "朝日新聞社中高生新聞掲載",
     highlight: true,
-    image: "https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/newspaper%20entre%20lab.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by9uZXdzcGFwZXIgZW50cmUgbGFiLnBuZyIsImlhdCI6MTc0ODg1ODc1NCwiZXhwIjoxNzgwMzk0NzU0fQ.MaNrwU3E6UFYwna4OKVvWfrbFDByzDIAkP5pK4A1ZgU"
+    image: "/images/uniring/20250420-asahi-junior.jpg"
   },
-  { 
-    date: "2025年4月27日", 
-    title: "学生団体Youth Intersection主催高校生・大学生向け交流会登壇",
-    image: "https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/presentation%20view.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by9wcmVzZW50YXRpb24gdmlldy5wbmciLCJpYXQiOjE3NDg4NTgyMzUsImV4cCI6MTc4MDM5NDIzNX0.eBOBk2yJM62YcbPl1J413L4knlG9dd5FatO71iemQfw"
+  {
+    date: "2025年4月29日",
+    title: "朝日新聞掲載",
+    highlight: true,
+    image: "/images/uniring/20250429-asahi-shimbun.jpg"
   },
-  { 
-    date: "2025年6月28日", 
-    title: "株式会社iGO主催EDUVISON2025登壇"
+  {
+    date: "2025年4月30日",
+    title: "東京新聞掲載",
+    highlight: true,
+    image: "/images/uniring/20250430-tokyo-shimbun.jpg"
+  },
+  {
+    date: "2025年6月28日",
+    title: "株式会社iGO主催 EDUVISON 2025 登壇",
+    image: "/images/uniring/20250628-eduvision2025.jpg"
+  },
+  {
+    date: "2025年8月3日",
+    title: "【ワークショップ開催】Tokyo Startup Gatewayプロジェクト・フェア出展",
+    image: "/images/uniring/20250803-tsg-fair.jpg"
+  },
+  {
+    date: "2025年9月8日",
+    title: "【ワークショップ開催】駒場学園高校 起業LAB 5期",
+    image: "/images/uniring/20250908-komaba-kigyo-lab5.jpg"
+  },
+  {
+    date: "2025年11月30日",
+    title: "【ワークショップ開催】Tokyo Startup Gatewayプロジェクト・フェア出展",
+    image: "/images/uniring/20251130-tsg-fair.jpg"
+  },
+  {
+    date: "2026年2月2日",
+    title: "【ワークショップ開催】駒場学園高校ウェルビーイング委員会研修",
+    image: "/images/uniring/20260202-wellbeing-training.jpg"
+  },
+  {
+    date: "2026年3月15日",
+    title: "【ワークショップ開催】プロジェクトフェア",
+    image: "/images/uniring/20260315-project-fair.jpg"
+  },
+  {
+    date: "2026年3月25日",
+    title: "Üniring 2nd Anniversary party 開催",
+    highlight: true,
+    image: "/images/uniring/20260325-2nd-anniversary.jpg"
   },
 ];
 
@@ -70,7 +109,7 @@ const teamMembers = [
   {
     name: "寺井葉南",
     role: "共同代表",
-    image: "https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/intro%20member%20hana.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by9pbnRybyBtZW1iZXIgaGFuYS5wbmciLCJpYXQiOjE3NDg4NTg2NjgsImV4cCI6MTc4MDM5NDY2OH0.f0dcB33E0pWySoXb74iP0j4mMdhzvlKaI1gHc7juyNA",
+    image: "/images/uniring/member-terai-hanan.jpg",
     qualifications: [
       "教育学部在学中",
       "教育カウンセラー資格取得",
@@ -80,7 +119,7 @@ const teamMembers = [
   {
     name: "石橋舞優",
     role: "共同代表",
-    image: "https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/intro%20member%20mana.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by9pbnRybyBtZW1iZXIgbWFuYS5wbmciLCJpYXQiOjE3NDg4NTg3MDgsImV4cCI6MTc4MDM5NDcwOH0.12hQyqduMhjhuBnQ9kTq8CVPwR1tWlDWvsVXETEcvUg",
+    image: "/images/uniring/member-ishibashi-mayu.jpeg",
     university: "東京大学"
   },
   {

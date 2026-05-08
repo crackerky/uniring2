@@ -49,8 +49,8 @@ export function About() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <motion.div variants={itemVariants} className="relative aspect-[4/3]">
               <Image
-                src="https://images.pexels.com/photos/8199562/pexels-photo-8199562.jpeg"
-                alt="高校生による活動の様子"
+                src="/images/uniring/about-us.jpg"
+                alt="Üniringメンバーの活動の様子"
                 fill
                 className="object-cover rounded-lg shadow-lg"
               />

@@ -45,7 +45,7 @@ export default function AboutPage() {
           <motion.div variants={itemVariants} className="mb-12">
             <div className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden">
               <Image
-                src="https://syuddulwqqyuhrcwhqqs.supabase.co/storage/v1/object/sign/photo/view%20of%20working.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYjUzMTc1Yi0zYmIwLTRjYTEtYTYxNC04YmU2YThjNjY3MjQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90by92aWV3IG9mIHdvcmtpbmcucG5nIiwiaWF0IjoxNzQ4ODU4ODYwLCJleHAiOjE3ODAzOTQ4NjB9.QY8HFqliMZ_59BPZ7wkB7a8hUQCKt7Xrf3PbJ8bOQdU"
+                src="/images/uniring/about-us.jpg"
                 alt="私たちについて"
                 fill
                 className="object-cover"

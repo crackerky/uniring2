@@ -58,7 +58,7 @@ export function Origin() {
           <div className="grid md:grid-cols-2 gap-12 mb-24 items-center">
             <motion.div variants={slideInLeft} className="relative aspect-[4/3]">
               <Image
-                src="https://images.pexels.com/photos/8199562/pexels-photo-8199562.jpeg"
+                src="/images/uniring/about-us.jpg"
                 alt="高校生の部活動の様子"
                 fill
                 className="object-cover rounded-lg shadow-lg"
@@ -79,8 +79,8 @@ export function Origin() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <motion.div variants={slideInLeft} className="relative aspect-[4/3] md:order-2">
               <Image
-                src="https://images.pexels.com/photos/7516363/pexels-photo-7516363.jpeg"
-                alt="探究活動の様子"
+                src="/images/uniring/inquiry-program.jpg"
+                alt="探究プログラムとの出会い"
                 fill
                 className="object-cover rounded-lg shadow-lg"
               />
