@@ -188,12 +188,12 @@ export default function NewsPage() {
                 className="bg-card rounded-lg shadow-sm border overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
                 onClick={() => setSelectedArticle(article)}
               >
-                <div className="relative h-48">
+                <div className="relative h-48 bg-muted/30">
                   <Image
                     src={article.image}
                     alt={article.title}
                     fill
-                    className="object-cover"
+                    className="object-cover object-top"
                   />
                 </div>
                 <div className="p-6">
@@ -211,28 +211,34 @@ export default function NewsPage() {
       </div>
 
       <Dialog open={!!selectedArticle} onOpenChange={() => setSelectedArticle(null)}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-bold">
-              {selectedArticle?.title}
-            </DialogTitle>
-            <time className="text-sm text-muted-foreground block mt-2">
-              {selectedArticle?.date}
-            </time>
-          </DialogHeader>
-          <div className="relative h-64 my-4">
-            {selectedArticle && (
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0">
+          <div className="p-6 pb-0">
+            <DialogHeader>
+              <DialogTitle className="text-xl md:text-2xl font-bold pr-8 leading-snug">
+                {selectedArticle?.title}
+              </DialogTitle>
+              <time className="text-sm text-muted-foreground block mt-2">
+                {selectedArticle?.date}
+              </time>
+            </DialogHeader>
+          </div>
+          {selectedArticle && (
+            <div className="flex justify-center bg-muted/30 mx-6 rounded-lg overflow-hidden">
               <Image
                 src={selectedArticle.image}
                 alt={selectedArticle.title}
-                fill
-                className="object-cover rounded-lg"
+                width={1600}
+                height={1200}
+                className="w-auto h-auto max-w-full max-h-[70vh] object-contain"
+                unoptimized
               />
-            )}
+            </div>
+          )}
+          <div className="px-6 pb-6">
+            <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
+              {selectedArticle?.content}
+            </p>
           </div>
-          <p className="text-muted-foreground leading-relaxed">
-            {selectedArticle?.content}
-          </p>
         </DialogContent>
       </Dialog>
     </section>

@@ -60,7 +60,7 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       toast({
         variant: "destructive",
@@ -73,8 +73,20 @@ export default function ContactPage() {
     setIsSubmitting(true);
 
     try {
-      // Here you would typically send the form data to your backend
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulated API call
+      const encode = (data: Record<string, string>) =>
+        Object.keys(data)
+          .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+          .join("&");
+
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encode({ "form-name": "contact", ...formData }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Submission failed (${response.status})`);
+      }
 
       toast({
         title: "送信完了",
@@ -88,6 +100,7 @@ export default function ContactPage() {
         message: "",
       });
     } catch (error) {
+      console.error("Contact form submission failed:", error);
       toast({
         variant: "destructive",
         title: "エラー",
@@ -198,8 +211,19 @@ export default function ContactPage() {
             <motion.form
               variants={itemVariants}
               onSubmit={handleSubmit}
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
               className="space-y-6 bg-card p-8 rounded-lg shadow-sm border"
             >
+              <input type="hidden" name="form-name" value="contact" />
+              <p className="hidden">
+                <label>
+                  Don&apos;t fill this out if you&apos;re human:
+                  <input name="bot-field" />
+                </label>
+              </p>
               <div className="space-y-2">
                 <Label htmlFor="name">
                   お名前<span className="text-red-500 ml-1">*</span>
